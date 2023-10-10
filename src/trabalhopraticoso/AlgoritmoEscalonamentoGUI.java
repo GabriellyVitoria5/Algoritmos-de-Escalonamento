@@ -1,7 +1,10 @@
 package trabalhopraticoso;
 
+import comparator.CompararDuracao;
+import comparator.CompararIngresso;
 import java.awt.List;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Enumeration;
 import javax.swing.*;
@@ -40,7 +43,7 @@ public class AlgoritmoEscalonamentoGUI extends javax.swing.JFrame {
                 //verificar se as colunas 2 a 4 são números
                 if (coluna != 0) {
                     try {
-                        Double.parseDouble(valorCelula.toString());
+                        Integer.parseInt(valorCelula.toString());
                     } catch (NumberFormatException e) {
                         JOptionPane.showMessageDialog(null, "A célula na linha " + (linha + 1) + ", coluna " + (coluna + 1) + " possui valor inválido!");
                         return false;
@@ -54,10 +57,12 @@ public class AlgoritmoEscalonamentoGUI extends javax.swing.JFrame {
     }
     
     public static void menorTerefaPrimeiro(ArrayList<Processo> listaProcessos){
-        Collections.sort(listaProcessos, new CompararDuracao()); //ordenar processor pela duração
+        //Collections.sort(listaProcessos, new CompararDuracao()); //ordenar processor pela duração
+        //Arrays.sort(listaProcessos, Comparator.comparingInt(Processo::getIngresso).thenComparingInt(Processo::getDuracao));
         for (int i = 0; i < listaProcessos.size(); i++) {
             System.out.println(listaProcessos.get(i));
         }
+        System.out.println(""); // quebra de linha
     }
 
     public static ArrayList<Processo> getListaProcessos(JTable tabela) {
@@ -68,8 +73,8 @@ public class AlgoritmoEscalonamentoGUI extends javax.swing.JFrame {
 
         for (int linha = 0; linha < contLinhas; linha++) {
             String nome = model.getValueAt(linha, 0).toString();
-            float ingresso = Float.parseFloat(model.getValueAt(linha, 1).toString());
-            float duracao = Float.parseFloat(model.getValueAt(linha, 2).toString());
+            int ingresso = Integer.parseInt(model.getValueAt(linha, 1).toString());
+            int duracao = Integer.parseInt(model.getValueAt(linha, 2).toString());
             int prioridade = Integer.parseInt(model.getValueAt(linha, 3).toString());
 
             Processo p = new Processo(nome, ingresso, duracao, prioridade);
@@ -131,7 +136,8 @@ public class AlgoritmoEscalonamentoGUI extends javax.swing.JFrame {
         tabelaProcessos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {"P1", "0", "3", "1"},
-                {"P2", "0", "4", "2"}
+                {"P2", "0", "4", "2"},
+                {"P3", "0", "1", "1"}
             },
             new String [] {
                 "Nome", "Ingresso", "Duração", "Prioridade"

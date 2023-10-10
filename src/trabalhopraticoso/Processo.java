@@ -3,14 +3,14 @@ package trabalhopraticoso;
 public class Processo {
     
     private String nome;
-    private float ingresso;
-    private float duracao;
+    private int ingresso;
+    private int duracao;
     private int prioridade;
 
     public Processo() {
     }
 
-    public Processo(String nome, float ingresso, float duracao, int prioridade) {
+    public Processo(String nome, int ingresso, int duracao, int prioridade) {
         this.nome = nome;
         this.ingresso = ingresso;
         this.duracao = duracao;
@@ -25,19 +25,19 @@ public class Processo {
         this.nome = nome;
     }
 
-    public float getIngresso() {
+    public int getIngresso() {
         return ingresso;
     }
 
-    public void setIngresso(float ingresso) {
+    public void setIngresso(int ingresso) {
         this.ingresso = ingresso;
     }
 
-    public float getDuracao() {
+    public int getDuracao() {
         return duracao;
     }
 
-    public void setDuracao(float duracao) {
+    public void setDuracao(int duracao) {
         this.duracao = duracao;
     }
 
