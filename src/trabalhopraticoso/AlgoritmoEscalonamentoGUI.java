@@ -1,30 +1,33 @@
 package trabalhopraticoso;
 
+import algoritmosEscalonamento.MenorTarefa;
 import comparator.CompararDuracao;
 import comparator.CompararIngresso;
-import java.awt.List;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Enumeration;
+import java.util.List;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
 public class AlgoritmoEscalonamentoGUI extends javax.swing.JFrame {
-
+    
     public AlgoritmoEscalonamentoGUI() {
         initComponents();
 
+        //Adicionando todos os radioButtons a um buttonGroup 
         buttonGroup1 = new ButtonGroup();
         buttonGroup1.add(rbMenorTarefaPrimeiro);
         buttonGroup1.add(rbPrioridadeCooperativo);
         buttonGroup1.add(rb3);
         buttonGroup1.add(rb4);
+        
+        //deixar um botão pré-selecionado
         rbMenorTarefaPrimeiro.setSelected(true);
 
     }
 
-    //validar dados da tabela
+    //validar dados da tabela para não deixar campos em branco
     private static boolean verificarTabela(JTable tabela) {
         DefaultTableModel model = (DefaultTableModel) tabela.getModel();
         int contLinhas = model.getRowCount();
@@ -56,21 +59,14 @@ public class AlgoritmoEscalonamentoGUI extends javax.swing.JFrame {
         return true;
     }
     
-    public static void menorTerefaPrimeiro(ArrayList<Processo> listaProcessos){
-        //Collections.sort(listaProcessos, new CompararDuracao()); //ordenar processor pela duração
-        //Arrays.sort(listaProcessos, Comparator.comparingInt(Processo::getIngresso).thenComparingInt(Processo::getDuracao));
-        for (int i = 0; i < listaProcessos.size(); i++) {
-            System.out.println(listaProcessos.get(i));
-        }
-        System.out.println(""); // quebra de linha
-    }
-
-    public static ArrayList<Processo> getListaProcessos(JTable tabela) {
+    //criar uma lista com todos os processos informados na tabela
+    public static List<Processo> getListaProcessos(JTable tabela) {
         DefaultTableModel model = (DefaultTableModel) tabela.getModel();
         int contLinhas = model.getRowCount();
-        int contColunas = model.getColumnCount();
-        ArrayList<Processo> listaProcessos = new ArrayList<>();
+        
+        List<Processo> listaProcessos = new ArrayList<Processo>();
 
+        //cada linha da tabela é um novo processo
         for (int linha = 0; linha < contLinhas; linha++) {
             String nome = model.getValueAt(linha, 0).toString();
             int ingresso = Integer.parseInt(model.getValueAt(linha, 1).toString());
@@ -83,6 +79,71 @@ public class AlgoritmoEscalonamentoGUI extends javax.swing.JFrame {
 
         return listaProcessos;
     }
+    
+    public static void imprimirFilaProcessos(List<Processo> listaProcessos){
+        for (int i = 0; i < listaProcessos.size(); i++) {
+            System.out.println(listaProcessos.get(i));
+        }
+        System.out.println(""); // quebra de linha
+    }
+    
+    //organizar a fila de processos de acordo com a menor duração
+    public static void menorTerefaPrimeiro(List<Processo> listaProcessos){
+        /*
+        //1° caso: todos os processos chegaram ao mesmo tempo
+        Collections.sort(listaProcessos, new CompararDuracao()); //ordenar processor pela duração
+        
+        int controle = 0;
+        for (int i = 0; i < listaProcessos.size()-1; i++) {
+            if(listaProcessos.get(i).getIngresso() != listaProcessos.get(i+1).getIngresso()){
+                controle++;
+            }
+        }
+
+        //2° caso: processos que chegaram depois podem executar primeiro do que processos que chegaram antes se forem menores
+        if(controle != 0){ 
+            Collections.sort(listaProcessos, new CompararIngresso()); //ordenar de acordo com o ingresso
+            int tempoExecucaoAtual = 0;
+            
+            for (int i = 0; i < listaProcessos.size()-1; i++) {
+                for (int j = 0; j < listaProcessos.size()-1; j++) {
+                    
+                    //comparar se dois processos podem estão prontos para serem escolhidos pelo processador, se já chegaram no processador
+                    if(listaProcessos.get(j).getIngresso() <= tempoExecucaoAtual && listaProcessos.get(j+1).getIngresso() <= tempoExecucaoAtual){
+                        
+                        //se ambos estão disputando o processador, é preciso verificar quem é menor
+                        if(listaProcessos.get(j).getDuracao() > listaProcessos.get(j+1).getDuracao()){
+                            Collections.swap(listaProcessos, j, j+1); //trocar 
+                        }  
+                    }
+                    
+                }
+                
+                //atualizar o tempo de execução atual do processador
+                tempoExecucaoAtual+= listaProcessos.get(i).getDuracao();
+                
+            }
+        }
+        */
+        
+        MenorTarefa menorTarefa = new MenorTarefa();
+        menorTarefa.ordenarFilaProcesso(listaProcessos);
+
+        
+        imprimirFilaProcessos(listaProcessos);
+        /*
+        //imprimir a fila de processos
+        for (int i = 0; i < listaProcessos.size(); i++) {
+            System.out.println(listaProcessos.get(i));
+        }
+        System.out.println(""); // quebra de linha
+        */
+        
+        System.out.println(menorTarefa.calcularTempoEsperaMedio(listaProcessos));
+        
+    }
+
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -135,9 +196,11 @@ public class AlgoritmoEscalonamentoGUI extends javax.swing.JFrame {
 
         tabelaProcessos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"P1", "0", "3", "1"},
-                {"P2", "0", "4", "2"},
-                {"P3", "0", "1", "1"}
+                {"P1", "0", "5", "1"},
+                {"P2", "0", "2", "2"},
+                {"P3", "1", "4", "1"},
+                {"P4", "3", "1", "1"},
+                {"P5", "5", "2", "1"}
             },
             new String [] {
                 "Nome", "Ingresso", "Duração", "Prioridade"
@@ -248,7 +311,7 @@ public class AlgoritmoEscalonamentoGUI extends javax.swing.JFrame {
         // chamando método para verificar se as informações da tabela são válidas
         if (verificarTabela(tabelaProcessos)) {
             JOptionPane.showMessageDialog(null, "Todos os dados estão corretos!");
-            ArrayList<Processo> listaProcessos = getListaProcessos(tabelaProcessos);
+            List<Processo> listaProcessos = getListaProcessos(tabelaProcessos);
 
             //
             Enumeration<AbstractButton> radioButtons = buttonGroup1.getElements();
