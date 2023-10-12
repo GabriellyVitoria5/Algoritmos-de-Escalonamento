@@ -33,17 +33,19 @@ public class PrioridadeCooperativo extends AlgortimosEscalonamento{
         if(controle != 0){ 
             Collections.sort(lista, new CompararIngresso()); //ordenar de acordo com o ingresso
             int execucaoAtual = 0;
-
+            
             for (int i = 0; i < lista.size(); i++) {
                 for (int j = 0; j < lista.size()-1; j++) {
-                    
-                    //comparar se dois processos podem estão prontos para serem escolhidos pelo processador, se já chegaram no processador
-                    if(lista.get(j).getIngresso() <= execucaoAtual && lista.get(j+1).getIngresso() <= execucaoAtual){
-
+                   
+                    //comparar se pelo menos processos está pronto para serem escolhido pelo processador, se já chegou no processador
+                    if(lista.get(j).getIngresso() <= execucaoAtual || lista.get(j+1).getIngresso() <= execucaoAtual){
+                        
                         //se ambos estão disputando o processador, é preciso verificar quem é menor
-                        if(lista.get(j).getPrioridade()> lista.get(j+1).getPrioridade()){
-                            Collections.swap(lista, j, j+1); //trocar 
-                        }  
+                        if(lista.get(j).getPrioridade() < lista.get(j+1).getPrioridade() && (lista.get(j).getIngresso() <= execucaoAtual)){
+                            Collections.swap(lista, j, j+1); //trocar
+                            
+                        } 
+                        
                     }
                 }
                 
@@ -71,6 +73,31 @@ public class PrioridadeCooperativo extends AlgortimosEscalonamento{
     @Override
     public int calcularTrocasContexto(List<Processo> lista) {
         return lista.size()-1;
+    }
+
+    @Override
+    public float calcularTempoEsperaMedio(List<Processo> lista){
+        int tempoExecucaoAtual = 0;
+        float tempoEsperaMedio = 0;
+        int quantidadeProcessos = lista.size();
+        for (int i = 0; i < lista.size(); i++) {
+            tempoEsperaMedio += (lista.get(i).getDuracao() + tempoExecucaoAtual) - lista.get(i).getIngresso();
+            tempoExecucaoAtual += lista.get(i).getDuracao(); //atualizar tempo execução atual
+        }
+        return tempoEsperaMedio/quantidadeProcessos;
+    }
+    
+    //***tem erro aqui, tempo de execução está dando negativo***
+    @Override
+    public float calcularTempoExecucaoMedio(List<Processo> lista){
+        int tempoExecucaoAtual = 0;
+        float tempoExecucaoMedio = 0;
+        int quantidadeProcessos = lista.size();
+        for (int i = 0; i < lista.size(); i++) {
+            tempoExecucaoMedio += tempoExecucaoAtual - lista.get(i).getIngresso();
+            tempoExecucaoAtual += lista.get(i).getDuracao(); //atualizar tempo execução atual
+        }
+        return tempoExecucaoMedio/quantidadeProcessos;
     }
     
 }

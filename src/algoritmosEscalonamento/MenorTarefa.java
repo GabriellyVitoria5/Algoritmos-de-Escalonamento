@@ -71,4 +71,29 @@ public class MenorTarefa extends AlgortimosEscalonamento{
     public int calcularTrocasContexto(List<Processo> lista) {
         return lista.size()-1;
     }
+    
+    @Override
+    public float calcularTempoEsperaMedio(List<Processo> lista){
+        int tempoExecucaoAtual = 0;
+        float tempoEsperaMedio = 0;
+        int quantidadeProcessos = lista.size();
+        for (int i = 0; i < lista.size(); i++) {
+            tempoEsperaMedio += (lista.get(i).getDuracao() + tempoExecucaoAtual) - lista.get(i).getIngresso();
+            tempoExecucaoAtual += lista.get(i).getDuracao(); //atualizar tempo execução atual
+        }
+        return tempoEsperaMedio/quantidadeProcessos;
+    }
+    
+    //***tem erro aqui, tempo de execução está dando negativo***
+    @Override
+    public float calcularTempoExecucaoMedio(List<Processo> lista){
+        int tempoExecucaoAtual = 0;
+        float tempoExecucaoMedio = 0;
+        int quantidadeProcessos = lista.size();
+        for (int i = 0; i < lista.size(); i++) {
+            tempoExecucaoMedio += tempoExecucaoAtual - lista.get(i).getIngresso();
+            tempoExecucaoAtual += lista.get(i).getDuracao(); //atualizar tempo execução atual
+        }
+        return tempoExecucaoMedio/quantidadeProcessos;
+    }
 }

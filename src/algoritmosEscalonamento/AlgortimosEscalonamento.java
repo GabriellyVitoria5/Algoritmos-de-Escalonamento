@@ -6,7 +6,13 @@ import trabalhopraticoso.Processo;
 public abstract class AlgortimosEscalonamento {
     
     
-    public abstract List<Processo> ordenarFilaProcesso(List<Processo> lista);
+    public List<Processo> ordenarFilaProcesso(List<Processo> lista){
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+    
+    public List<Processo> ordenarFilaProcesso(List<Processo> lista, int quantum){
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
     
     public void imprimirFilaProcessos(List<Processo> lista){
         for (int i = 0; i < lista.size(); i++) {
@@ -15,27 +21,9 @@ public abstract class AlgortimosEscalonamento {
         System.out.println(""); //quebra de linha
     }
     
-    public float calcularTempoEsperaMedio(List<Processo> lista){
-        int tempoExecucaoAtual = 0;
-        float tempoEsperaMedio = 0;
-        int quantidadeProcessos = lista.size();
-        for (int i = 0; i < lista.size(); i++) {
-            tempoEsperaMedio += (lista.get(i).getDuracao() + tempoExecucaoAtual) - lista.get(i).getIngresso();
-            tempoExecucaoAtual += lista.get(i).getDuracao(); //atualizar tempo execução atual
-        }
-        return tempoEsperaMedio/quantidadeProcessos;
-    }
+    public abstract float calcularTempoEsperaMedio(List<Processo> lista);
     
-    public float calcularTempoExecucaoMedio(List<Processo> lista){
-        int tempoExecucaoAtual = 0;
-        float tempoExecucaoMedio = 0;
-        int quantidadeProcessos = lista.size();
-        for (int i = 0; i < lista.size(); i++) {
-            tempoExecucaoMedio += tempoExecucaoAtual - lista.get(i).getIngresso();
-            tempoExecucaoAtual += lista.get(i).getDuracao(); //atualizar tempo execução atual
-        }
-        return tempoExecucaoMedio/quantidadeProcessos;
-    }
+    public abstract float calcularTempoExecucaoMedio(List<Processo> lista);
     
     public abstract int calcularTrocasContexto(List<Processo> lista);
 }
