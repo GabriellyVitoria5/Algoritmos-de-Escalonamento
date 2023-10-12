@@ -89,62 +89,19 @@ public class AlgoritmoEscalonamentoGUI extends javax.swing.JFrame {
     
     //organizar a fila de processos de acordo com a menor duração
     public static void menorTerefaPrimeiro(List<Processo> listaProcessos){
-        /*
-        //1° caso: todos os processos chegaram ao mesmo tempo
-        Collections.sort(listaProcessos, new CompararDuracao()); //ordenar processor pela duração
-        
-        int controle = 0;
-        for (int i = 0; i < listaProcessos.size()-1; i++) {
-            if(listaProcessos.get(i).getIngresso() != listaProcessos.get(i+1).getIngresso()){
-                controle++;
-            }
-        }
-
-        //2° caso: processos que chegaram depois podem executar primeiro do que processos que chegaram antes se forem menores
-        if(controle != 0){ 
-            Collections.sort(listaProcessos, new CompararIngresso()); //ordenar de acordo com o ingresso
-            int tempoExecucaoAtual = 0;
-            
-            for (int i = 0; i < listaProcessos.size()-1; i++) {
-                for (int j = 0; j < listaProcessos.size()-1; j++) {
-                    
-                    //comparar se dois processos podem estão prontos para serem escolhidos pelo processador, se já chegaram no processador
-                    if(listaProcessos.get(j).getIngresso() <= tempoExecucaoAtual && listaProcessos.get(j+1).getIngresso() <= tempoExecucaoAtual){
-                        
-                        //se ambos estão disputando o processador, é preciso verificar quem é menor
-                        if(listaProcessos.get(j).getDuracao() > listaProcessos.get(j+1).getDuracao()){
-                            Collections.swap(listaProcessos, j, j+1); //trocar 
-                        }  
-                    }
-                    
-                }
-                
-                //atualizar o tempo de execução atual do processador
-                tempoExecucaoAtual+= listaProcessos.get(i).getDuracao();
-                
-            }
-        }
-        */
-        
         MenorTarefa menorTarefa = new MenorTarefa();
-        menorTarefa.ordenarFilaProcesso(listaProcessos);
+        List<Processo> lista = menorTarefa.ordenarFilaProcesso(listaProcessos);
 
+        imprimirFilaProcessos(lista);
         
-        imprimirFilaProcessos(listaProcessos);
-        /*
-        //imprimir a fila de processos
-        for (int i = 0; i < listaProcessos.size(); i++) {
-            System.out.println(listaProcessos.get(i));
-        }
-        System.out.println(""); // quebra de linha
-        */
-        
-        System.out.println(menorTarefa.calcularTempoEsperaMedio(listaProcessos));
+        System.out.println("Tempo de espera médio: " + menorTarefa.calcularTempoEsperaMedio(lista) + "s");
+        System.out.println("Tempo de execução médio: " + menorTarefa.calcularTempoExecucaoMedio(lista)+ "s");
+        System.out.println("Trocas de contexto: " + menorTarefa.calcularTrocasContexto(lista));
         
     }
 
     
-
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -286,7 +243,7 @@ public class AlgoritmoEscalonamentoGUI extends javax.swing.JFrame {
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnIniciar)
-                .addContainerGap(286, Short.MAX_VALUE))
+                .addContainerGap(30, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());

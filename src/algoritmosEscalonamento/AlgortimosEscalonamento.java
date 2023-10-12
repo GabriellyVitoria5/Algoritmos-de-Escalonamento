@@ -17,4 +17,6 @@ public abstract class AlgortimosEscalonamento {
     public abstract float calcularTempoEsperaMedio(List<Processo> lista);
     
     public abstract float calcularTempoExecucaoMedio(List<Processo> lista);
+    
+    public abstract int calcularTrocasContexto(List<Processo> lista);
 }
