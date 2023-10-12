@@ -8,10 +8,6 @@ import java.util.List;
 import trabalhopraticoso.Processo;
 
 public class MenorTarefa extends AlgortimosEscalonamento{
-
-    private int tempoExecucaoAtual;
-    private float tempoExecucaoMedio;
-    private float tempoEsperaMedio;
     
     public MenorTarefa() {
         
@@ -68,30 +64,6 @@ public class MenorTarefa extends AlgortimosEscalonamento{
         else{
             return novaFilaProcessos;
         }
-        
-        
-    }
-
-    @Override
-    public float calcularTempoEsperaMedio(List<Processo> lista) {
-        tempoExecucaoAtual = 0;
-        int quantidadeProcessos = lista.size();
-        for (int i = 0; i < lista.size(); i++) {
-            tempoEsperaMedio += (lista.get(i).getDuracao() + tempoExecucaoAtual) - lista.get(i).getIngresso();
-            tempoExecucaoAtual += lista.get(i).getDuracao(); //atualizar tempo execução atual
-        }
-        return tempoEsperaMedio/quantidadeProcessos;
-    }
-
-    @Override
-    public float calcularTempoExecucaoMedio(List<Processo> lista) {
-        tempoExecucaoAtual = 0;
-        int quantidadeProcessos = lista.size();
-        for (int i = 0; i < lista.size(); i++) {
-            tempoExecucaoMedio += tempoExecucaoAtual - lista.get(i).getIngresso();
-            tempoExecucaoAtual += lista.get(i).getDuracao(); //atualizar tempo execução atual
-        }
-        return tempoExecucaoMedio/quantidadeProcessos;
     }
 
     //as trocas de contexto no algoritmo SJF é o número de processos menos 1

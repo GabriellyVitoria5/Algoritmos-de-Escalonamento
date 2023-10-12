@@ -92,12 +92,12 @@ public class AlgoritmoEscalonamentoGUI extends javax.swing.JFrame {
         MenorTarefa menorTarefa = new MenorTarefa();
         List<Processo> lista = menorTarefa.ordenarFilaProcesso(listaProcessos);
 
-        imprimirFilaProcessos(lista);
+        //imprimirFilaProcessos(lista);
+        menorTarefa.imprimirFilaProcessos(lista);
         
         System.out.println("Tempo de espera médio: " + menorTarefa.calcularTempoEsperaMedio(lista) + "s");
         System.out.println("Tempo de execução médio: " + menorTarefa.calcularTempoExecucaoMedio(lista)+ "s");
         System.out.println("Trocas de contexto: " + menorTarefa.calcularTrocasContexto(lista));
-        
     }
 
     
@@ -142,14 +142,14 @@ public class AlgoritmoEscalonamentoGUI extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel3.setText("Não preemptivo:");
 
-        rb3.setText("Escolher1");
+        rb3.setText("Round-Robin");
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel4.setText("Preemptivo:");
 
         rbPrioridadeCooperativo.setText("Escalonamento por Prioridade Cooperativo");
 
-        rb4.setText("Escolher2");
+        rb4.setText("Escalonamento por Prioridade Preemptivo");
 
         tabelaProcessos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -209,7 +209,7 @@ public class AlgoritmoEscalonamentoGUI extends javax.swing.JFrame {
                                 .addComponent(jLabel6)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 242, Short.MAX_VALUE)))
+                        .addGap(0, 68, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -238,9 +238,10 @@ public class AlgoritmoEscalonamentoGUI extends javax.swing.JFrame {
                 .addComponent(jLabel5)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel6)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabel6)
+                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnIniciar)
                 .addContainerGap(30, Short.MAX_VALUE))
@@ -284,10 +285,10 @@ public class AlgoritmoEscalonamentoGUI extends javax.swing.JFrame {
                         case "Escalonamento por Prioridade Cooperativo":
                             
                             break;
-                        case "Escolher1":
+                        case "Round-Robin":
                             
                             break;
-                        case "Escolher2":
+                        case "Escalonamento por Prioridade Preemptivo":
                             
                             break;
                         default:

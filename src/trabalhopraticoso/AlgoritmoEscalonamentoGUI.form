@@ -79,7 +79,7 @@
                                   <Component id="jTextField1" min="-2" pref="54" max="-2" attributes="0"/>
                               </Group>
                           </Group>
-                          <EmptySpace min="0" pref="242" max="32767" attributes="0"/>
+                          <EmptySpace min="0" pref="68" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
@@ -116,9 +116,11 @@
                   <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
                       <Component id="jScrollPane1" min="-2" pref="109" max="-2" attributes="0"/>
-                      <Component id="jTextField1" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="jLabel6" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="jTextField1" alignment="0" min="-2" max="-2" attributes="0"/>
+                      </Group>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="btnIniciar" min="-2" max="-2" attributes="0"/>
@@ -159,7 +161,7 @@
         </Component>
         <Component class="javax.swing.JRadioButton" name="rb3">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Escolher1"/>
+            <Property name="text" type="java.lang.String" value="Round-Robin"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel4">
@@ -177,7 +179,7 @@
         </Component>
         <Component class="javax.swing.JRadioButton" name="rb4">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Escolher2"/>
+            <Property name="text" type="java.lang.String" value="Escalonamento por Prioridade Preemptivo"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JSeparator" name="jSeparator1">
