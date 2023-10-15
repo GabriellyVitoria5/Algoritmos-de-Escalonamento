@@ -18,11 +18,11 @@ public class AlgoritmoEscalonamentoGUI extends javax.swing.JFrame {
         buttonGroup1 = new ButtonGroup();
         buttonGroup1.add(rbMenorTarefaPrimeiro);
         buttonGroup1.add(rbPrioridadeCooperativo);
-        buttonGroup1.add(rb3);
-        buttonGroup1.add(rb4);
+        buttonGroup1.add(rbRoundRobin);
+        buttonGroup1.add(rbPrioridadePreemptivo);
         
         //deixar um botão pré-selecionado
-        rbMenorTarefaPrimeiro.setSelected(true);
+        rbPrioridadePreemptivo.setSelected(true);
 
     }
 
@@ -145,10 +145,10 @@ public class AlgoritmoEscalonamentoGUI extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         rbMenorTarefaPrimeiro = new javax.swing.JRadioButton();
         jLabel3 = new javax.swing.JLabel();
-        rb3 = new javax.swing.JRadioButton();
+        rbRoundRobin = new javax.swing.JRadioButton();
         jLabel4 = new javax.swing.JLabel();
         rbPrioridadeCooperativo = new javax.swing.JRadioButton();
-        rb4 = new javax.swing.JRadioButton();
+        rbPrioridadePreemptivo = new javax.swing.JRadioButton();
         jSeparator1 = new javax.swing.JSeparator();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabelaProcessos = new javax.swing.JTable();
@@ -171,14 +171,14 @@ public class AlgoritmoEscalonamentoGUI extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel3.setText("Não preemptivo:");
 
-        rb3.setText("Round-Robin");
+        rbRoundRobin.setText("Round-Robin");
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel4.setText("Preemptivo:");
 
         rbPrioridadeCooperativo.setText("Escalonamento por Prioridade Cooperativo");
 
-        rb4.setText("Escalonamento por Prioridade Preemptivo");
+        rbPrioridadePreemptivo.setText("Escalonamento por Prioridade Preemptivo");
 
         tabelaProcessos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -234,8 +234,8 @@ public class AlgoritmoEscalonamentoGUI extends javax.swing.JFrame {
                                 .addComponent(jLabel4)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(rb3)
-                                    .addComponent(rb4)))
+                                    .addComponent(rbRoundRobin)
+                                    .addComponent(rbPrioridadePreemptivo)))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 302, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -267,9 +267,9 @@ public class AlgoritmoEscalonamentoGUI extends javax.swing.JFrame {
                         .addComponent(rbPrioridadeCooperativo))
                     .addComponent(jLabel4)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(rb3)
+                        .addComponent(rbRoundRobin)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(rb4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(rbPrioridadePreemptivo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGap(17, 17, 17)
                 .addComponent(jLabel5)
                 .addGap(18, 18, 18)
@@ -399,10 +399,10 @@ public class AlgoritmoEscalonamentoGUI extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JRadioButton rb3;
-    private javax.swing.JRadioButton rb4;
     private javax.swing.JRadioButton rbMenorTarefaPrimeiro;
     private javax.swing.JRadioButton rbPrioridadeCooperativo;
+    private javax.swing.JRadioButton rbPrioridadePreemptivo;
+    private javax.swing.JRadioButton rbRoundRobin;
     private javax.swing.JTable tabelaProcessos;
     private javax.swing.JTextField txtQuantum;
     // End of variables declaration//GEN-END:variables

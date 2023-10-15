@@ -67,8 +67,8 @@
                                   <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="rb3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="rb4" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Component id="rbRoundRobin" min="-2" max="-2" attributes="0"/>
+                                      <Component id="rbPrioridadePreemptivo" alignment="0" min="-2" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
@@ -112,9 +112,9 @@
                       </Group>
                       <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
                       <Group type="102" attributes="0">
-                          <Component id="rb3" min="-2" max="-2" attributes="0"/>
+                          <Component id="rbRoundRobin" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="rb4" max="32767" attributes="0"/>
+                          <Component id="rbPrioridadePreemptivo" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace min="-2" pref="17" max="-2" attributes="0"/>
@@ -168,7 +168,7 @@
             <Property name="text" type="java.lang.String" value="N&#xe3;o preemptivo:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JRadioButton" name="rb3">
+        <Component class="javax.swing.JRadioButton" name="rbRoundRobin">
           <Properties>
             <Property name="text" type="java.lang.String" value="Round-Robin"/>
           </Properties>
@@ -186,7 +186,7 @@
             <Property name="text" type="java.lang.String" value="Escalonamento por Prioridade Cooperativo"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JRadioButton" name="rb4">
+        <Component class="javax.swing.JRadioButton" name="rbPrioridadePreemptivo">
           <Properties>
             <Property name="text" type="java.lang.String" value="Escalonamento por Prioridade Preemptivo"/>
           </Properties>

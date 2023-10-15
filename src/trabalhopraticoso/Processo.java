@@ -16,6 +16,14 @@ public class Processo {
         this.duracao = duracao;
         this.prioridade = prioridade;
     }
+    
+    // Construtor de cópia
+    public Processo(Processo outro) {
+        this.nome = outro.nome;
+        this.ingresso = outro.ingresso;
+        this.duracao = outro.duracao;
+        this.prioridade = outro.prioridade;
+    }
 
     public String getNome() {
         return nome;
