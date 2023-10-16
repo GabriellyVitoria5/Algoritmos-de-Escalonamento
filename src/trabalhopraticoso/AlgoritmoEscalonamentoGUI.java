@@ -139,6 +139,10 @@ public class AlgoritmoEscalonamentoGUI extends javax.swing.JFrame {
         List<Processo> lista = roundRobin.ordenarFilaProcesso(listaProcessos, quantum);
         roundRobin.imprimirFilaProcessos(lista);
         
+        //System.out.println("Tempo de espera médio: " + roundRobin.calcularTempoEsperaMedio(lista) + "s");
+        //System.out.println("Tempo de execução médio: " + roundRobin.calcularTempoExecucaoMedio(lista)+ "s");
+        System.out.println("Trocas de contexto: " + roundRobin.calcularTrocasContexto(lista));
+        
         System.out.println("--------------------------------------------");
     }
     
@@ -149,6 +153,10 @@ public class AlgoritmoEscalonamentoGUI extends javax.swing.JFrame {
         PrioridadePreemptivo prioridadePreemptiva = new PrioridadePreemptivo();
         List<Processo> lista = prioridadePreemptiva.ordenarFilaProcesso(listaProcessos, quantum);
         prioridadePreemptiva.imprimirFilaProcessos(lista);
+        
+        //System.out.println("Tempo de espera médio: " + prioridadePreemptiva.calcularTempoEsperaMedio(lista) + "s");
+        //System.out.println("Tempo de execução médio: " + prioridadePreemptiva.calcularTempoExecucaoMedio(lista)+ "s");
+        System.out.println("Trocas de contexto: " + prioridadePreemptiva.calcularTrocasContexto(lista));
         
         System.out.println("--------------------------------------------");
     }
