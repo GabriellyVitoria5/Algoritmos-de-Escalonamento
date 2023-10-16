@@ -14,7 +14,7 @@ public class PrioridadePreemptivo extends AlgortimosEscalonamento {
 
         while (!lista.isEmpty()) {
 
-            System.out.println(execucaoAtual);
+            //System.out.println(execucaoAtual);
 
             for (int j = 0; j < lista.size() - 1; j++) {
 
@@ -54,7 +54,7 @@ public class PrioridadePreemptivo extends AlgortimosEscalonamento {
                 contQuantum++;
             }
 
-            System.out.println(lista);
+            //System.out.println(lista);
 
             if (lista.get(0).getDuracao() > 0) {
                 novaFilaProcessos.add(temp);
