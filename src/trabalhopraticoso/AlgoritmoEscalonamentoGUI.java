@@ -3,6 +3,7 @@ package trabalhopraticoso;
 import algoritmosEscalonamento.MenorTarefa;
 import algoritmosEscalonamento.PrioridadeCooperativo;
 import algoritmosEscalonamento.PrioridadePreemptivo;
+import algoritmosEscalonamento.RoundRobin;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
@@ -114,7 +115,9 @@ public class AlgoritmoEscalonamentoGUI extends javax.swing.JFrame {
         System.out.println("\n--------------------------------------------");
         System.out.println("Resultado do algoritmo Round-Robin:\n");
 
-        //...
+        RoundRobin roundRobin = new RoundRobin();
+        List<Processo> lista = roundRobin.ordenarFilaProcesso(listaProcessos, quantum);
+        roundRobin.imprimirFilaProcessos(lista);
         
         System.out.println("--------------------------------------------");
     }
@@ -311,6 +314,7 @@ public class AlgoritmoEscalonamentoGUI extends javax.swing.JFrame {
             //List<Processo> listaProcessos = getListaProcessos(tabelaProcessos);
 
             //
+            int quantum;
             Enumeration<AbstractButton> radioButtons = buttonGroup1.getElements();
             while (radioButtons.hasMoreElements()) {
                 JRadioButton rb = (JRadioButton) radioButtons.nextElement();
@@ -325,10 +329,16 @@ public class AlgoritmoEscalonamentoGUI extends javax.swing.JFrame {
                             prioridadeCooperativa(getListaProcessos(tabelaProcessos));
                             break;
                         case "Round-Robin":
-                            
+                            if(txtQuantum.getText().trim().length() != 0){
+                                try {
+                                    quantum = Integer.parseInt(txtQuantum.getText());
+                                    roundRobin(getListaProcessos(tabelaProcessos), quantum);
+                                } catch (NumberFormatException e) {
+                                    JOptionPane.showMessageDialog(null, "Quantum inválido");
+                                }
+                            }
                             break;
                         case "Escalonamento por Prioridade Preemptivo":
-                            int quantum;
                             if(txtQuantum.getText().trim().length() != 0){
                                 try {
                                     quantum = Integer.parseInt(txtQuantum.getText());
