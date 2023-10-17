@@ -53,7 +53,7 @@ public class MenorTarefa extends AlgortimosEscalonamento{
                 //atualiza o tempo de execução atual do "processador"
                 execucaoAtual+= lista.get(i).getDuracao();
                 
-                //o primeiro processo é retirado da lista pois ele não precisa ser comparado com mais ninguém, suo posição na fila já está correta
+                //o primeiro processo é retirado da lista pois ele não precisa ser comparado com mais ninguém, sua posição na fila já está correta
                 lista.remove(i);
                 
                 //como um elemento foi tirado da lista, a variável i precisa atualizar para não comprometer o for

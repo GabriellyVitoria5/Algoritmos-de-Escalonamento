@@ -148,7 +148,7 @@ public class AlgoritmoEscalonamentoGUI extends javax.swing.JFrame {
     
     public static void prioridadePreemptiva(List<Processo> listaProcessos, int quantum){
         System.out.println("\n--------------------------------------------");
-        System.out.println("Resultado do algoritmo Round-Robin:\n");
+        System.out.println("Resultado do algoritmo Prioridade Preemptiva:\n");
         
         PrioridadePreemptivo prioridadePreemptiva = new PrioridadePreemptivo();
         List<Processo> lista = prioridadePreemptiva.ordenarFilaProcesso(listaProcessos, quantum);
