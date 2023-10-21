@@ -1,11 +1,13 @@
 package trabalhopraticoso;
 
-public class Processo {
+public class Processo implements Cloneable{
     
     private String nome;
     private int ingresso;
     private int duracao;
     private int prioridade;
+    private int fimDuracao;
+    private String estado;
 
     public Processo() {
     }
@@ -15,6 +17,7 @@ public class Processo {
         this.ingresso = ingresso;
         this.duracao = duracao;
         this.prioridade = prioridade;
+        this.estado = "novo";
     }
     
     // Construtor de cópia
@@ -57,9 +60,29 @@ public class Processo {
         this.prioridade = prioridade;
     }
 
-    @Override
-    public String toString() {
-        return "Processo " + nome + " / " + ingresso + " / " + duracao + " / " + prioridade;
+    public int getFimDuracao() {
+        return fimDuracao;
+    }
+
+    public void setFimDuracao(int fimDuracao) {
+        this.fimDuracao = fimDuracao;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
     }
     
+    @Override
+    public String toString() {
+        return "Processo " + nome + " | " + ingresso + " | " + duracao + " | " + prioridade + " | " + fimDuracao;
+    }
+    
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
 }

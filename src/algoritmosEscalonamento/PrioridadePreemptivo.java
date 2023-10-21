@@ -8,13 +8,11 @@ import trabalhopraticoso.Processo;
 public class PrioridadePreemptivo extends AlgortimosEscalonamento {
 
     @Override
-    public List<Processo> ordenarFilaProcesso(List<Processo> lista, int quantum) {
+    public List<Processo> ordenarFilaProcesso(List<Processo> lista) {
         List<Processo> novaFilaProcessos = new ArrayList<>(); //criando a fila de processos         
         int execucaoAtual = 0;
 
         while (!lista.isEmpty()) {
-
-            //System.out.println(execucaoAtual);
 
             for (int j = 0; j < lista.size() - 1; j++) {
 
@@ -33,37 +31,37 @@ public class PrioridadePreemptivo extends AlgortimosEscalonamento {
             if (lista.get(0).getIngresso() > execucaoAtual) {
                 Collections.swap(lista, 0, 1); //trocar
             }
-
-            //teste
+            
             Processo temp = null;
-            int contQuantum = 1;
-            while (contQuantum <= quantum && lista.get(0).getDuracao() > 0) {
-                //verificar se algum processo entrou no processador nesse meio tempo organizando a lista novamente
-                if (chegouNoProcessador(lista, lista.get(0), execucaoAtual)) {
-                    //novaFilaProcessos.add(temp);
+            int contDuracao = 1, duracaoProcesso = lista.get(0).getDuracao();
+            while (contDuracao <= duracaoProcesso ) {
+                if (chegouProcessadoComMaiorPrioridade(lista, lista.get(0), execucaoAtual)) {
                     break;
                 }
-
+                
                 temp = new Processo(lista.get(0));
-
-                //atualizar a duração da tarefa removendo o tempo que ela já ficou no processador
+                
                 lista.get(0).setDuracao((lista.get(0).getDuracao() - 1));
-                temp.setDuracao(contQuantum);
+                temp.setDuracao(contDuracao);
                 execucaoAtual += 1;
-
-                contQuantum++;
+                contDuracao++;
             }
 
             //System.out.println(lista);
 
+            //fazer modificação aqui
             if (lista.get(0).getDuracao() >= 0) {
+                System.out.println(5);
+                temp.setFimDuracao(execucaoAtual);
                 novaFilaProcessos.add(temp);
-            } else {
+            } 
+            /*else {
                 novaFilaProcessos.add(lista.get(0));
-            }
+                System.out.println(7);
+            }*/
             
             //o primeiro processo é retirado da lista pois ele não precisa ser comparado com mais ninguém, sua posição na fila já está correta
-            if (lista.get(0).getDuracao() <= quantum) {
+            if (lista.get(0).getDuracao() <= 0) {
                 lista.remove(0);
             }
         }
@@ -71,7 +69,7 @@ public class PrioridadePreemptivo extends AlgortimosEscalonamento {
         return novaFilaProcessos;
     }
 
-    public boolean chegouNoProcessador(List<Processo> lista, Processo p, int tempoExecucao) {
+    public boolean chegouProcessadoComMaiorPrioridade(List<Processo> lista, Processo p, int tempoExecucao) {
         for (int i = 0; i < lista.size(); i++) {
             if (lista.get(i).getIngresso() <= tempoExecucao && lista.get(i).getPrioridade() > p.getPrioridade()) {
                 return true;
@@ -80,43 +78,38 @@ public class PrioridadePreemptivo extends AlgortimosEscalonamento {
         return false;
     }
 
-    //tem coisa errada aqui
-    @Override
-    public float calcularTempoEsperaMedio(List<Processo> lista) {
-        int tempoExecucaoAtual;
-        int tempoEspertaPorProcesso[] = new int[5];
+    //tempo de espera médio = (tempo em que o processo terminou - ingresso) - duração
+    public float calcularTempoEsperaMedio(List<Processo> listaProcessosInformados, List<Processo> filaFinalOrdenada) {
+        int fimDuracaoPorProcesso[] = new int[listaProcessosInformados.size()];
         float tempoEsperaMedio = 0;
-        int quantidadeProcessos = lista.size();
-        for (int i = 0; i < lista.size(); i++) {
-            tempoExecucaoAtual = 0;
-            for (int j = 0; j < lista.size(); j++) {
-                if(lista.get(i).getNome().equalsIgnoreCase(lista.get(j).getNome()) && lista.get(j).getIngresso() <= tempoExecucaoAtual){
-                    tempoEspertaPorProcesso[i] += lista.get(j).getDuracao();
-                }
-                tempoExecucaoAtual += lista.get(i).getDuracao(); //atualizar tempo execução atual
-            }
-
-            //tempoEsperaMedio += (lista.get(i).getDuracao() + tempoExecucaoAtual) - lista.get(i).getIngresso();
-            //tempoExecucaoAtual += lista.get(i).getDuracao(); //atualizar tempo execução atual
+        
+        for (int i = 0; i < filaFinalOrdenada.size(); i++) {
+            int indiceNome = getIndicePeloNome(listaProcessosInformados, filaFinalOrdenada.get(i).getNome());
+            fimDuracaoPorProcesso[indiceNome] = filaFinalOrdenada.get(i).getFimDuracao();
         }
         
-        for (int i = 0; i < tempoEspertaPorProcesso.length; i++) {
-            System.out.println(tempoEspertaPorProcesso[i]);
+        for (int i = 0; i < fimDuracaoPorProcesso.length; i++) {
+            tempoEsperaMedio += ((fimDuracaoPorProcesso[i] - listaProcessosInformados.get(i).getIngresso()) - listaProcessosInformados.get(i).getDuracao());
         }
         
-        return tempoEsperaMedio/quantidadeProcessos;
+        return tempoEsperaMedio/listaProcessosInformados.size();
     }
 
-    @Override
-    public float calcularTempoExecucaoMedio(List<Processo> lista) {
-        int tempoExecucaoAtual = 0;
+    //tempo de execução médio = tempo que o processo terminou - ingresso
+    public float calcularTempoExecucaoMedio(List<Processo> listaProcessosInformados, List<Processo> filaFinalOrdenada) {
+        int fimDuracaoPorProcesso[] = new int[listaProcessosInformados.size()];
         float tempoExecucaoMedio = 0;
-        int quantidadeProcessos = lista.size();
-        for (int i = 0; i < lista.size(); i++) {
-            tempoExecucaoMedio += tempoExecucaoAtual - lista.get(i).getIngresso();
-            tempoExecucaoAtual += lista.get(i).getDuracao(); //atualizar tempo execução atual
+        
+        for (int i = 0; i < filaFinalOrdenada.size(); i++) {
+            int indiceNome = getIndicePeloNome(listaProcessosInformados, filaFinalOrdenada.get(i).getNome());
+            fimDuracaoPorProcesso[indiceNome] = filaFinalOrdenada.get(i).getFimDuracao();
         }
-        return tempoExecucaoMedio/quantidadeProcessos;
+        
+        for (int i = 0; i < fimDuracaoPorProcesso.length; i++) {
+            tempoExecucaoMedio += (fimDuracaoPorProcesso[i] - listaProcessosInformados.get(i).getIngresso());
+        }
+        
+        return tempoExecucaoMedio/listaProcessosInformados.size();
     }
 
     @Override
@@ -124,4 +117,23 @@ public class PrioridadePreemptivo extends AlgortimosEscalonamento {
         return lista.size()-1;
     }
 
+    public int getIndicePeloNome(List<Processo> listaProcessosInformados, String nome){
+        for (int i = 0; i < listaProcessosInformados.size(); i++) {
+            if(listaProcessosInformados.get(i).getNome().equalsIgnoreCase(nome)){
+                return i;
+            }
+        }
+        return -1;
+    }
+    
+    public boolean temProcessosNaFila(List<Processo> lista, int execucao){
+        for (int i = 0; i < lista.size(); i++) {
+            if(lista.get(i).getIngresso() <= execucao){
+                return true;
+            }
+        }
+        return false;
+    }
 }
+
+

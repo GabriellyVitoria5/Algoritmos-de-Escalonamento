@@ -7,6 +7,8 @@ import algoritmosEscalonamento.RoundRobin;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
@@ -146,17 +148,22 @@ public class AlgoritmoEscalonamentoGUI extends javax.swing.JFrame {
         System.out.println("--------------------------------------------");
     }
     
-    public static void prioridadePreemptiva(List<Processo> listaProcessos, int quantum){
+    public static void prioridadePreemptiva(List<Processo> listaProcessos) throws CloneNotSupportedException{
         System.out.println("\n--------------------------------------------");
         System.out.println("Resultado do algoritmo Prioridade Preemptiva:\n");
         
-        PrioridadePreemptivo prioridadePreemptiva = new PrioridadePreemptivo();
-        List<Processo> lista = prioridadePreemptiva.ordenarFilaProcesso(listaProcessos, quantum);
-        prioridadePreemptiva.imprimirFilaProcessos(lista);
+        List<Processo> listaProcessosInformados = new ArrayList<>();
+        for (Processo elemento : listaProcessos) {
+            listaProcessosInformados.add((Processo) elemento.clone());
+        }
         
-        //System.out.println("Tempo de espera médio: " + prioridadePreemptiva.calcularTempoEsperaMedio(lista) + "s");
-        //System.out.println("Tempo de execução médio: " + prioridadePreemptiva.calcularTempoExecucaoMedio(lista)+ "s");
-        System.out.println("Trocas de contexto: " + prioridadePreemptiva.calcularTrocasContexto(lista));
+        PrioridadePreemptivo prioridadePreemptiva = new PrioridadePreemptivo();
+        List<Processo> filaPrdenada = prioridadePreemptiva.ordenarFilaProcesso(listaProcessos);
+        prioridadePreemptiva.imprimirFilaProcessos(filaPrdenada);
+        
+        System.out.println("Tempo de espera médio: " + prioridadePreemptiva.calcularTempoEsperaMedio(listaProcessosInformados, filaPrdenada) + "s");
+        System.out.println("Tempo de execução médio: " + prioridadePreemptiva.calcularTempoExecucaoMedio(listaProcessosInformados, filaPrdenada)+ "s");
+        System.out.println("Trocas de contexto: " + prioridadePreemptiva.calcularTrocasContexto(filaPrdenada));
         
         System.out.println("--------------------------------------------");
     }
@@ -391,9 +398,11 @@ public class AlgoritmoEscalonamentoGUI extends javax.swing.JFrame {
                             if(txtQuantum.getText().trim().length() != 0){
                                 try {
                                     quantum = Integer.parseInt(txtQuantum.getText());
-                                    prioridadePreemptiva(getListaProcessos(tabelaProcessos), quantum);
+                                    prioridadePreemptiva(getListaProcessos(tabelaProcessos));
                                 } catch (NumberFormatException e) {
                                     JOptionPane.showMessageDialog(null, "Quantum inválido");
+                                } catch (CloneNotSupportedException ex) {
+                                    Logger.getLogger(AlgoritmoEscalonamentoGUI.class.getName()).log(Level.SEVERE, null, ex);
                                 }
                             }
                             else{

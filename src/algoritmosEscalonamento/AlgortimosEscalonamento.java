@@ -21,9 +21,13 @@ public abstract class AlgortimosEscalonamento {
         System.out.println(""); //quebra de linha
     }
     
-    public abstract float calcularTempoEsperaMedio(List<Processo> lista);
+    public float calcularTempoEsperaMedio(List<Processo> lista){
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
     
-    public abstract float calcularTempoExecucaoMedio(List<Processo> lista);
+    public float calcularTempoExecucaoMedio(List<Processo> lista){
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
     
     public abstract int calcularTrocasContexto(List<Processo> lista);
 }
