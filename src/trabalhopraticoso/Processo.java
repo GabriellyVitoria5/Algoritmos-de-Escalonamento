@@ -6,8 +6,8 @@ public class Processo implements Cloneable{
     private int ingresso;
     private int duracao;
     private int prioridade;
+    private int inicioDuracao;
     private int fimDuracao;
-    private String estado;
 
     public Processo() {
     }
@@ -17,7 +17,6 @@ public class Processo implements Cloneable{
         this.ingresso = ingresso;
         this.duracao = duracao;
         this.prioridade = prioridade;
-        this.estado = "novo";
     }
     
     // Construtor de cópia
@@ -60,6 +59,14 @@ public class Processo implements Cloneable{
         this.prioridade = prioridade;
     }
 
+    public int getInicioDuracao() {
+        return inicioDuracao;
+    }
+
+    public void setInicioDuracao(int inicioDuracao) {
+        this.inicioDuracao = inicioDuracao;
+    }
+
     public int getFimDuracao() {
         return fimDuracao;
     }
@@ -67,18 +74,10 @@ public class Processo implements Cloneable{
     public void setFimDuracao(int fimDuracao) {
         this.fimDuracao = fimDuracao;
     }
-
-    public String getEstado() {
-        return estado;
-    }
-
-    public void setEstado(String estado) {
-        this.estado = estado;
-    }
     
     @Override
     public String toString() {
-        return "Processo " + nome + " | " + ingresso + " | " + duracao + " | " + prioridade + " | " + fimDuracao;
+        return "Processo " + nome + " | " + ingresso + " | " + duracao + " | " + prioridade + " | " + inicioDuracao + " | " + fimDuracao;
     }
     
     @Override

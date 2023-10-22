@@ -44,6 +44,8 @@ public class MenorTarefa extends AlgortimosEscalonamento{
                     }
                 }
 
+                listaProcessosInformados.get(i).setInicioDuracao(execucaoAtual);
+                
                 //atualiza o tempo de execução atual do "processador"
                 execucaoAtual+= listaProcessosInformados.get(i).getDuracao();
                 

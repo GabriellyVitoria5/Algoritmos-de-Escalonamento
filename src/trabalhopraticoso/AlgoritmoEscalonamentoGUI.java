@@ -108,12 +108,32 @@ public class AlgoritmoEscalonamentoGUI extends javax.swing.JFrame {
         System.out.println("Resultado do algoritmo Menor tarefa primeiro:\n");
         
         MenorTarefa menorTarefa = new MenorTarefa();
-        List<Processo> lista = menorTarefa.ordenarFilaProcesso(listaProcessos);
-        menorTarefa.imprimirFilaProcessos(lista);
+        List<Processo> filaOrdenada = menorTarefa.ordenarFilaProcesso(listaProcessos);
+        //menorTarefa.imprimirFilaProcessos(lista);
         
-        System.out.println("Tempo de espera médio: " + menorTarefa.calcularTempoEsperaMedio(lista) + "s");
-        System.out.println("Tempo de execução médio: " + menorTarefa.calcularTempoExecucaoMedio(lista)+ "s");
-        System.out.println("Trocas de contexto: " + menorTarefa.calcularTrocasContexto(lista));
+        int execucao = 1;
+        for (int i = 0; i < filaOrdenada.size(); i++) {
+            System.out.print(filaOrdenada.get(i).getNome() + ": ");
+            for (int j = 0; j < filaOrdenada.get(i).getDuracao(); j++) {
+                // Imprime o caractere
+                System.out.print(execucao + " ");
+
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                
+                execucao++;
+            }
+            System.out.println("");
+        }
+        
+        System.out.println("\nNome | Ingresso | Duração | Prioridade | Inicio execução | Fim execução");
+        menorTarefa.imprimirFilaProcessos(filaOrdenada);
+        System.out.println("Tempo de espera médio: " + menorTarefa.calcularTempoEsperaMedio(filaOrdenada) + "s");
+        System.out.println("Tempo de execução médio: " + menorTarefa.calcularTempoExecucaoMedio(filaOrdenada)+ "s");
+        System.out.println("Trocas de contexto: " + menorTarefa.calcularTrocasContexto(filaOrdenada));
         
         System.out.println("--------------------------------------------");
     }
@@ -123,12 +143,33 @@ public class AlgoritmoEscalonamentoGUI extends javax.swing.JFrame {
         System.out.println("Resultado do algoritmo Prioridade cooperativa:\n");
         
         PrioridadeCooperativo prioridadeCooperativo = new PrioridadeCooperativo();
-        List<Processo> lista = prioridadeCooperativo.ordenarFilaProcesso(listaProcessos);
-        prioridadeCooperativo.imprimirFilaProcessos(lista);
+        List<Processo> filaOrdenada = prioridadeCooperativo.ordenarFilaProcesso(listaProcessos);
+        //prioridadeCooperativo.imprimirFilaProcessos(lista);
         
-        System.out.println("Tempo de espera médio: " + prioridadeCooperativo.calcularTempoEsperaMedio(lista) + "s");
-        System.out.println("Tempo de execução médio: " + prioridadeCooperativo.calcularTempoExecucaoMedio(lista)+ "s");
-        System.out.println("Trocas de contexto: " + prioridadeCooperativo.calcularTrocasContexto(lista));
+        int execucao = 1;
+        for (int i = 0; i < filaOrdenada.size(); i++) {
+            System.out.print(filaOrdenada.get(i).getNome() + ": ");
+            for (int j = 0; j < filaOrdenada.get(i).getDuracao(); j++) {
+                // Imprime o caractere
+                System.out.print(execucao + " ");
+
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                
+                execucao++;
+            }
+            System.out.println("");
+        }
+        
+        System.out.println("\nNome | Ingresso | Duração | Prioridade | Inicio execução | Fim execução");
+        prioridadeCooperativo.imprimirFilaProcessos(filaOrdenada);
+        
+        System.out.println("Tempo de espera médio: " + prioridadeCooperativo.calcularTempoEsperaMedio(filaOrdenada) + "s");
+        System.out.println("Tempo de execução médio: " + prioridadeCooperativo.calcularTempoExecucaoMedio(filaOrdenada)+ "s");
+        System.out.println("Trocas de contexto: " + prioridadeCooperativo.calcularTrocasContexto(filaOrdenada));
         
         System.out.println("--------------------------------------------");
     }
@@ -144,8 +185,28 @@ public class AlgoritmoEscalonamentoGUI extends javax.swing.JFrame {
         
         RoundRobin roundRobin = new RoundRobin();
         List<Processo> filaOrdenada = roundRobin.ordenarFilaProcesso(listaProcessos, quantum);
-        roundRobin.imprimirFilaProcessos(filaOrdenada);
+        //roundRobin.imprimirFilaProcessos(filaOrdenada);
         
+        int execucao = 1;
+        for (int i = 0; i < filaOrdenada.size(); i++) {
+            System.out.print(filaOrdenada.get(i).getNome() + ": ");
+            for (int j = 0; j < filaOrdenada.get(i).getDuracao(); j++) {
+                // Imprime o caractere
+                System.out.print(execucao + " ");
+
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                
+                execucao++;
+            }
+            System.out.println("");
+        }
+        
+        System.out.println("\nNome | Ingresso | Duração | Prioridade | Inicio execução | Fim execução");
+        roundRobin.imprimirFilaProcessos(filaOrdenada);
         System.out.println("Tempo de espera médio: " + roundRobin.calcularTempoEsperaMedio(listaProcessosInformados, filaOrdenada) + "s");
         System.out.println("Tempo de execução médio: " + roundRobin.calcularTempoExecucaoMedio(listaProcessosInformados, filaOrdenada)+ "s");
         System.out.println("Trocas de contexto: " + roundRobin.calcularTrocasContexto(filaOrdenada));
@@ -164,8 +225,28 @@ public class AlgoritmoEscalonamentoGUI extends javax.swing.JFrame {
         
         PrioridadePreemptivo prioridadePreemptiva = new PrioridadePreemptivo();
         List<Processo> filaOrdenada = prioridadePreemptiva.ordenarFilaProcesso(listaProcessos);
-        prioridadePreemptiva.imprimirFilaProcessos(filaOrdenada);
+        //prioridadePreemptiva.imprimirFilaProcessos(filaOrdenada);
         
+        int execucao = 1;
+        for (int i = 0; i < filaOrdenada.size(); i++) {
+            System.out.print(filaOrdenada.get(i).getNome() + ": ");
+            for (int j = 0; j < filaOrdenada.get(i).getDuracao(); j++) {
+                // Imprime o caractere
+                System.out.print(execucao + " ");
+
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                
+                execucao++;
+            }
+            System.out.println("");
+        }
+        
+        System.out.println("\nNome | Ingresso | Duração | Prioridade | Inicio execução | Fim execução");
+        prioridadePreemptiva.imprimirFilaProcessos(filaOrdenada);
         System.out.println("Tempo de espera médio: " + prioridadePreemptiva.calcularTempoEsperaMedio(listaProcessosInformados, filaOrdenada) + "s");
         System.out.println("Tempo de execução médio: " + prioridadePreemptiva.calcularTempoExecucaoMedio(listaProcessosInformados, filaOrdenada)+ "s");
         System.out.println("Trocas de contexto: " + prioridadePreemptiva.calcularTrocasContexto(filaOrdenada));
@@ -254,11 +335,11 @@ public class AlgoritmoEscalonamentoGUI extends javax.swing.JFrame {
 
         jLabel7.setText("* Por padrão números maiores indicam maior prioridade");
 
-        jLabel8.setText("Quantidade de processos:");
+        jLabel8.setText("Alterar quantidade de processos:");
 
         txtQuantum.setText("2");
 
-        jButton1.setText("Adicionar processos");
+        jButton1.setText("Alterar ");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -302,10 +383,10 @@ public class AlgoritmoEscalonamentoGUI extends javax.swing.JFrame {
                                 .addComponent(jButton1))
                             .addComponent(btnIniciar)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 302, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 402, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jLabel7)))
-                        .addGap(0, 68, Short.MAX_VALUE)))
+                        .addGap(0, 113, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -342,12 +423,12 @@ public class AlgoritmoEscalonamentoGUI extends javax.swing.JFrame {
                     .addComponent(jLabel6)
                     .addComponent(txtQuantum, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel7))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnIniciar)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(78, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -427,6 +508,9 @@ public class AlgoritmoEscalonamentoGUI extends javax.swing.JFrame {
         } else {
             JOptionPane.showMessageDialog(null, "Há dados inválidos na tabela!");
         }
+        
+        
+        
     }//GEN-LAST:event_btnIniciarActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
