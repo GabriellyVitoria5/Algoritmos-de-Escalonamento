@@ -8,26 +8,26 @@ import trabalhopraticoso.Processo;
 public class RoundRobin extends AlgortimosEscalonamento {
 
     @Override
-    public List<Processo> ordenarFilaProcesso(List<Processo> lista, int quantum) {
+    public List<Processo> ordenarFilaProcesso(List<Processo> listaProcessosInformados, int quantum) {
 
         List<Processo> filaProcessosFinal = new ArrayList<>(); //criando a fila de processos        
         List<Processo> filaEspera = new ArrayList<>(); //criando a fila de processos        
         int execucaoAtual = 0;
 
         //ordenar lista de processos com base no ingresso
-        for (int i = 0; i < lista.size(); i++) {
-            for (int j = 0; j < lista.size()-1; j++) {
-                if(lista.get(j).getIngresso() > lista.get(j+1).getIngresso() ){
-                    Collections.swap(lista, j, j+1); //trocar 
+        for (int i = 0; i < listaProcessosInformados.size(); i++) {
+            for (int j = 0; j < listaProcessosInformados.size()-1; j++) {
+                if(listaProcessosInformados.get(j).getIngresso() > listaProcessosInformados.get(j+1).getIngresso() ){
+                    Collections.swap(listaProcessosInformados, j, j+1); //trocar 
                 }
             }
         }
         
         //adicionar processos prontos na fila de espera
-        for (int i = 0; i < lista.size(); i++) {
-            if(lista.get(i).getIngresso() <= execucaoAtual){
-                filaEspera.add(lista.get(i));
-                lista.remove(i);
+        for (int i = 0; i < listaProcessosInformados.size(); i++) {
+            if(listaProcessosInformados.get(i).getIngresso() <= execucaoAtual){
+                filaEspera.add(listaProcessosInformados.get(i));
+                listaProcessosInformados.remove(i);
                 i--;
             }
         }
@@ -48,9 +48,9 @@ public class RoundRobin extends AlgortimosEscalonamento {
                 filaProcessosFinal.add(primeiroElemento); //adiciona na fila final de processos
                 
                 //enquanto o processo executava, algum outro processo entrou na fila?
-                if(!lista.isEmpty() && chegouProcessoNoProcessador(execucaoAtual, lista.get(0))){
-                    filaEspera.add(lista.get(0));
-                    lista.remove(0);
+                if(!listaProcessosInformados.isEmpty() && chegouProcessoNoProcessador(execucaoAtual, listaProcessosInformados.get(0))){
+                    filaEspera.add(listaProcessosInformados.get(0));
+                    listaProcessosInformados.remove(0);
                 }
                 
                 if(primeiroElemento.getDuracao() != 0){
@@ -68,9 +68,9 @@ public class RoundRobin extends AlgortimosEscalonamento {
                 filaEspera.remove(0);
                 
                 //enquanto o processo executava, algum outro processo entrou na fila?
-                if(!lista.isEmpty() && chegouProcessoNoProcessador(execucaoAtual, lista.get(0))){
-                    filaEspera.add(lista.get(0));
-                    lista.remove(0);
+                if(!listaProcessosInformados.isEmpty() && chegouProcessoNoProcessador(execucaoAtual, listaProcessosInformados.get(0))){
+                    filaEspera.add(listaProcessosInformados.get(0));
+                    listaProcessosInformados.remove(0);
                 }
             }
         }
@@ -82,15 +82,17 @@ public class RoundRobin extends AlgortimosEscalonamento {
     public boolean chegouProcessoNoProcessador(int tempoExecucao, Processo p) {
         return p.getIngresso() <= tempoExecucao;
     }
-
+    
     //tempo de espera médio = (tempo em que o processo terminou - ingresso) - duração
-    public float calcularTempoEsperaMedio(List<Processo> listaProcessosInformados, List<Processo> filaFinalOrdenada) {
+    @Override
+    public float calcularTempoEsperaMedio(List<Processo> listaProcessosInformados, List<Processo> filaOrdenadaFinal) {
         int fimDuracaoPorProcesso[] = new int[listaProcessosInformados.size()];
         float tempoEsperaMedio = 0;
         
-        for (int i = 0; i < filaFinalOrdenada.size(); i++) {
-            int indiceNome = getIndicePeloNome(listaProcessosInformados, filaFinalOrdenada.get(i).getNome());
-            fimDuracaoPorProcesso[indiceNome] = filaFinalOrdenada.get(i).getFimDuracao();
+        //descobrir quando o processo terminou de executar
+        for (int i = 0; i < filaOrdenadaFinal.size(); i++) {
+            int indiceNome = getIndicePeloNome(listaProcessosInformados, filaOrdenadaFinal.get(i).getNome());
+            fimDuracaoPorProcesso[indiceNome] = filaOrdenadaFinal.get(i).getFimDuracao();
         }
         
         for (int i = 0; i < fimDuracaoPorProcesso.length; i++) {
@@ -99,7 +101,8 @@ public class RoundRobin extends AlgortimosEscalonamento {
         
         return tempoEsperaMedio/listaProcessosInformados.size();
     }
-    
+
+    //descobrir qual a posição do processo na fila final ordenada dados os nomes dos processos informados na tabela
     public int getIndicePeloNome(List<Processo> listaProcessosInformados, String nome){
         for (int i = 0; i < listaProcessosInformados.size(); i++) {
             if(listaProcessosInformados.get(i).getNome().equalsIgnoreCase(nome)){
@@ -108,15 +111,18 @@ public class RoundRobin extends AlgortimosEscalonamento {
         }
         return -1;
     }
+
     
     //tempo de execução médio = tempo que o processo terminou - ingresso
-    public float calcularTempoExecucaoMedio(List<Processo> listaProcessosInformados, List<Processo> filaFinalOrdenada) {
+    @Override
+    public float calcularTempoExecucaoMedio(List<Processo> listaProcessosInformados, List<Processo> filaOrdenadaFinal) {
         int fimDuracaoPorProcesso[] = new int[listaProcessosInformados.size()];
         float tempoExecucaoMedio = 0;
         
-        for (int i = 0; i < filaFinalOrdenada.size(); i++) {
-            int indiceNome = getIndicePeloNome(listaProcessosInformados, filaFinalOrdenada.get(i).getNome());
-            fimDuracaoPorProcesso[indiceNome] = filaFinalOrdenada.get(i).getFimDuracao();
+        //descobrir quando o processo terminou de executar
+        for (int i = 0; i < filaOrdenadaFinal.size(); i++) {
+            int indiceNome = getIndicePeloNome(listaProcessosInformados, filaOrdenadaFinal.get(i).getNome());
+            fimDuracaoPorProcesso[indiceNome] = filaOrdenadaFinal.get(i).getFimDuracao();
         }
         
         for (int i = 0; i < fimDuracaoPorProcesso.length; i++) {
@@ -125,7 +131,8 @@ public class RoundRobin extends AlgortimosEscalonamento {
         
         return tempoExecucaoMedio/listaProcessosInformados.size();
     }
-
+    
+    //do modo como foi implementado, as trocas de contexto serão as mesmas do algoritmo SJF e prioridade preemptiva
     @Override
     public int calcularTrocasContexto(List<Processo> lista) {
         return lista.size()-1;

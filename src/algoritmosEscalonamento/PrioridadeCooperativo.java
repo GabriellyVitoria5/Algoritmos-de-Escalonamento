@@ -9,95 +9,99 @@ import trabalhopraticoso.Processo;
 
 public class PrioridadeCooperativo extends AlgortimosEscalonamento{
 
-    public PrioridadeCooperativo() {
-    
-    }
+    public PrioridadeCooperativo() {}
     
     @Override
-    public List<Processo> ordenarFilaProcesso(List<Processo> lista) {
+    public List<Processo> ordenarFilaProcesso(List<Processo> listaProcessosInformados) {
+        
         //1° caso: todos os processos chegaram ao mesmo tempo e a prioridade é a mesma
-        Collections.sort(lista, new CompararDuracao()); //ordenar processor pela duração
+        Collections.sort(listaProcessosInformados, new CompararDuracao()); //ordenar processos pela duração
         
         //confirmar se todos os processos chegaram juntos 
-        int controle = 0;
-        for (int i = 0; i < lista.size()-1; i++) {
-            if((lista.get(i).getIngresso() != lista.get(i+1).getIngresso()) || (lista.get(i).getPrioridade()!= lista.get(i+1).getPrioridade())){
-                controle++;
+        int mesmoIngressoEPrioridade = 0;
+        for (int i = 0; i < listaProcessosInformados.size()-1; i++) {
+            if((listaProcessosInformados.get(i).getIngresso() != listaProcessosInformados.get(i+1).getIngresso()) || (listaProcessosInformados.get(i).getPrioridade()!= listaProcessosInformados.get(i+1).getPrioridade())){
+                mesmoIngressoEPrioridade++;
             }
         }
-        
-        //criando a fila de processos 
-        List<Processo> novaFilaProcessos = new ArrayList<>();
-        
+
         //2° caso: é preciso considerar o tempo de ingresso e aprioridade para ordenar a fila de processo
-        if(controle != 0){ 
-            Collections.sort(lista, new CompararIngresso()); //ordenar de acordo com o ingresso
+        if(mesmoIngressoEPrioridade != 0){ 
+            
+            List<Processo> filaProcessosFinal = new ArrayList<>();
+            Collections.sort(listaProcessosInformados, new CompararIngresso()); //ordenar de acordo com o ingresso
             int execucaoAtual = 0;
             
-            for (int i = 0; i < lista.size(); i++) {
-                for (int j = 0; j < lista.size()-1; j++) {
+            for (int i = 0; i < listaProcessosInformados.size(); i++) {
+                for (int j = 0; j < listaProcessosInformados.size()-1; j++) {
                    
                     //comparar se pelo menos processos está pronto para serem escolhido pelo processador, se já chegou no processador
-                    if(lista.get(j).getIngresso() <= execucaoAtual || lista.get(j+1).getIngresso() <= execucaoAtual){
+                    if(listaProcessosInformados.get(j).getIngresso() <= execucaoAtual || listaProcessosInformados.get(j+1).getIngresso() <= execucaoAtual){
                         
                         //se ambos estão disputando o processador, é preciso verificar quem é menor
-                        if(lista.get(j).getPrioridade() < lista.get(j+1).getPrioridade() && (lista.get(j).getIngresso() <= execucaoAtual)){
-                            Collections.swap(lista, j, j+1); //trocar
+                        if(listaProcessosInformados.get(j).getPrioridade() < listaProcessosInformados.get(j+1).getPrioridade() && (listaProcessosInformados.get(j).getIngresso() <= execucaoAtual)){
+                            Collections.swap(listaProcessosInformados, j, j+1); //trocar
                             
                         } 
-                        
                     }
                 }
+
+                //atualiza o tempo de execução atual do "processador"
+                execucaoAtual+= listaProcessosInformados.get(i).getDuracao();
                 
                 //o primeiro elemento da lista já está na ordem certa e é enviado para a fila de processos
-                novaFilaProcessos.add(lista.get(i));
-                
-                //atualiza o tempo de execução atual do "processador"
-                execucaoAtual+= lista.get(i).getDuracao();
+                listaProcessosInformados.get(i).setFimDuracao(execucaoAtual);
+                filaProcessosFinal.add(listaProcessosInformados.get(i));
                 
                 //o primeiro processo é retirado da lista pois ele não precisa ser comparado com mais ninguém, sua posição na fila já está correta
-                lista.remove(i);
+                listaProcessosInformados.remove(i);
                 
                 //como um elemento foi tirado da lista, a variável i precisa atualizar para não comprometer o for
                 i--;   
             }
-            return novaFilaProcessos;
+            return filaProcessosFinal;
         }
         else{
-            return novaFilaProcessos;
+            //atualizando tempo em que o processo terminou de executar
+            int execucao = 0;
+            for (int i = 0; i < listaProcessosInformados.size(); i++) {
+                if(i!=0){
+                   execucao += listaProcessosInformados.get(i).getDuracao();
+                   listaProcessosInformados.get(i).setFimDuracao(execucao); 
+                }
+                else{
+                    listaProcessosInformados.get(i).setFimDuracao(listaProcessosInformados.get(i).getDuracao());
+                    execucao += listaProcessosInformados.get(i).getDuracao();
+                }
+            }
+            return listaProcessosInformados;
         }
         
     }
+    
+    //tempo de espera médio = (tempo em que o processo terminou - ingresso) - duração
+    /*@Override
+    public float calcularTempoEsperaMedio(List<Processo> listaProcessosInformados){
+        float tempoExecucaoMedio = 0;
+        for (int i = 0; i < listaProcessosInformados.size(); i++) {
+            tempoExecucaoMedio += (listaProcessosInformados.get(i).getFimDuracao() - listaProcessosInformados.get(i).getIngresso() - listaProcessosInformados.get(i).getDuracao());
+        }
+        return tempoExecucaoMedio/listaProcessosInformados.size();
+    }
+    
+    //tempo de execução médio = tempo que o processo terminou - ingresso
+    @Override
+    public float calcularTempoExecucaoMedio(List<Processo> lista){
+        float tempoExecucaoMedio = 0;
+        for (int i = 0; i < lista.size(); i++) {
+            tempoExecucaoMedio += lista.get(i).getFimDuracao() - lista.get(i).getIngresso();
+        }
+        return tempoExecucaoMedio/lista.size();
+    }*/
 
     //semelhante ao SJF, na prioridade cooperativa a troca de contexto é o número de processos menos 1
     @Override
     public int calcularTrocasContexto(List<Processo> lista) {
         return lista.size()-1;
     }
-
-    @Override
-    public float calcularTempoEsperaMedio(List<Processo> lista){
-        int tempoExecucaoAtual = 0;
-        float tempoEsperaMedio = 0;
-        int quantidadeProcessos = lista.size();
-        for (int i = 0; i < lista.size(); i++) {
-            tempoEsperaMedio += (lista.get(i).getDuracao() + tempoExecucaoAtual) - lista.get(i).getIngresso();
-            tempoExecucaoAtual += lista.get(i).getDuracao(); //atualizar tempo execução atual
-        }
-        return tempoEsperaMedio/quantidadeProcessos;
-    }
-    
-    //***tempo de execução pode dar negativo***
-    @Override
-    public float calcularTempoExecucaoMedio(List<Processo> lista){
-        int tempoExecucaoAtual = 0;
-        float tempoExecucaoMedio = 0;
-        int quantidadeProcessos = lista.size();
-        for (int i = 0; i < lista.size(); i++) {
-            tempoExecucaoMedio += tempoExecucaoAtual - lista.get(i).getIngresso();
-            tempoExecucaoAtual += lista.get(i).getDuracao(); //atualizar tempo execução atual
-        }
-        return tempoExecucaoMedio/quantidadeProcessos;
-    }
-    
 }
