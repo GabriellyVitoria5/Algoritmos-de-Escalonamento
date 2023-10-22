@@ -19,7 +19,7 @@ public class PrioridadePreemptivo extends AlgortimosEscalonamento {
                 //comparar se pelo menos processos está pronto para serem escolhido pelo processador, se já chegou no processador
                 if (lista.get(j).getIngresso() <= execucaoAtual || lista.get(j + 1).getIngresso() <= execucaoAtual) {
 
-                    //se ambos estão disputando o processador, é preciso verificar quem é menor
+                    //se ambos estão disputando o processador, é preciso verificar quem tem maior prioridade
                     if (lista.get(j).getPrioridade() < lista.get(j + 1).getPrioridade() && (lista.get(j).getIngresso() <= execucaoAtual)) {
                         Collections.swap(lista, j, j + 1); //trocar
                     }
@@ -35,7 +35,7 @@ public class PrioridadePreemptivo extends AlgortimosEscalonamento {
             Processo temp = null;
             int contDuracao = 1, duracaoProcesso = lista.get(0).getDuracao();
             while (contDuracao <= duracaoProcesso ) {
-                if (chegouProcessadoComMaiorPrioridade(lista, lista.get(0), execucaoAtual)) {
+                if (chegouProcessoComMaiorPrioridade(lista, lista.get(0), execucaoAtual)) {
                     break;
                 }
                 
@@ -51,7 +51,6 @@ public class PrioridadePreemptivo extends AlgortimosEscalonamento {
 
             //fazer modificação aqui
             if (lista.get(0).getDuracao() >= 0) {
-                System.out.println(5);
                 temp.setFimDuracao(execucaoAtual);
                 novaFilaProcessos.add(temp);
             } 
@@ -69,7 +68,7 @@ public class PrioridadePreemptivo extends AlgortimosEscalonamento {
         return novaFilaProcessos;
     }
 
-    public boolean chegouProcessadoComMaiorPrioridade(List<Processo> lista, Processo p, int tempoExecucao) {
+    public boolean chegouProcessoComMaiorPrioridade(List<Processo> lista, Processo p, int tempoExecucao) {
         for (int i = 0; i < lista.size(); i++) {
             if (lista.get(i).getIngresso() <= tempoExecucao && lista.get(i).getPrioridade() > p.getPrioridade()) {
                 return true;

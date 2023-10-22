@@ -25,7 +25,7 @@ public class AlgoritmoEscalonamentoGUI extends javax.swing.JFrame {
         buttonGroup1.add(rbPrioridadePreemptivo);
         
         //deixar um botão pré-selecionado
-        rbPrioridadePreemptivo.setSelected(true);
+        rbRoundRobin.setSelected(true);
 
     }
     
@@ -133,17 +133,22 @@ public class AlgoritmoEscalonamentoGUI extends javax.swing.JFrame {
         System.out.println("--------------------------------------------");
     }
 
-    public static void roundRobin(List<Processo> listaProcessos, int quantum){
+    public static void roundRobin(List<Processo> listaProcessos, int quantum) throws CloneNotSupportedException{
         System.out.println("\n--------------------------------------------");
         System.out.println("Resultado do algoritmo Round-Robin:\n");
 
-        RoundRobin roundRobin = new RoundRobin();
-        List<Processo> lista = roundRobin.ordenarFilaProcesso(listaProcessos, quantum);
-        roundRobin.imprimirFilaProcessos(lista);
+        List<Processo> listaProcessosInformados = new ArrayList<>();
+        for (Processo elemento : listaProcessos) {
+            listaProcessosInformados.add((Processo) elemento.clone());
+        }
         
-        //System.out.println("Tempo de espera médio: " + roundRobin.calcularTempoEsperaMedio(lista) + "s");
-        //System.out.println("Tempo de execução médio: " + roundRobin.calcularTempoExecucaoMedio(lista)+ "s");
-        System.out.println("Trocas de contexto: " + roundRobin.calcularTrocasContexto(lista));
+        RoundRobin roundRobin = new RoundRobin();
+        List<Processo> filaOrdenada = roundRobin.ordenarFilaProcesso(listaProcessos, quantum);
+        roundRobin.imprimirFilaProcessos(filaOrdenada);
+        
+        System.out.println("Tempo de espera médio: " + roundRobin.calcularTempoEsperaMedio(listaProcessosInformados, filaOrdenada) + "s");
+        System.out.println("Tempo de execução médio: " + roundRobin.calcularTempoExecucaoMedio(listaProcessosInformados, filaOrdenada)+ "s");
+        System.out.println("Trocas de contexto: " + roundRobin.calcularTrocasContexto(filaOrdenada));
         
         System.out.println("--------------------------------------------");
     }
@@ -158,12 +163,12 @@ public class AlgoritmoEscalonamentoGUI extends javax.swing.JFrame {
         }
         
         PrioridadePreemptivo prioridadePreemptiva = new PrioridadePreemptivo();
-        List<Processo> filaPrdenada = prioridadePreemptiva.ordenarFilaProcesso(listaProcessos);
-        prioridadePreemptiva.imprimirFilaProcessos(filaPrdenada);
+        List<Processo> filaOrdenada = prioridadePreemptiva.ordenarFilaProcesso(listaProcessos);
+        prioridadePreemptiva.imprimirFilaProcessos(filaOrdenada);
         
-        System.out.println("Tempo de espera médio: " + prioridadePreemptiva.calcularTempoEsperaMedio(listaProcessosInformados, filaPrdenada) + "s");
-        System.out.println("Tempo de execução médio: " + prioridadePreemptiva.calcularTempoExecucaoMedio(listaProcessosInformados, filaPrdenada)+ "s");
-        System.out.println("Trocas de contexto: " + prioridadePreemptiva.calcularTrocasContexto(filaPrdenada));
+        System.out.println("Tempo de espera médio: " + prioridadePreemptiva.calcularTempoEsperaMedio(listaProcessosInformados, filaOrdenada) + "s");
+        System.out.println("Tempo de execução médio: " + prioridadePreemptiva.calcularTempoExecucaoMedio(listaProcessosInformados, filaOrdenada)+ "s");
+        System.out.println("Trocas de contexto: " + prioridadePreemptiva.calcularTrocasContexto(filaOrdenada));
         
         System.out.println("--------------------------------------------");
     }
@@ -391,7 +396,12 @@ public class AlgoritmoEscalonamentoGUI extends javax.swing.JFrame {
                                     roundRobin(getListaProcessos(tabelaProcessos), quantum);
                                 } catch (NumberFormatException e) {
                                     JOptionPane.showMessageDialog(null, "Quantum inválido");
+                                } catch (CloneNotSupportedException ex) {
+                                    Logger.getLogger(AlgoritmoEscalonamentoGUI.class.getName()).log(Level.SEVERE, null, ex);
                                 }
+                            }
+                            else{
+                                JOptionPane.showMessageDialog(null, "Campo quantum vazio");
                             }
                             break;
                         case "Escalonamento por Prioridade Preemptivo":
