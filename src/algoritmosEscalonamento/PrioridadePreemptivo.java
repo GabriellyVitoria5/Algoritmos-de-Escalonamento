@@ -32,14 +32,15 @@ public class PrioridadePreemptivo extends AlgortimosEscalonamento {
                 Collections.swap(listaProcessosInformados, 0, 1); //trocar
             }
             
-            Processo temp = null;
+            Processo temp = new Processo(listaProcessosInformados.get(0));
+            temp.setInicioDuracao(execucaoAtual);
             int contDuracao = 1, duracaoProcesso = listaProcessosInformados.get(0).getDuracao();
             while (contDuracao <= duracaoProcesso ) {
                 if (chegouProcessoComMaiorPrioridade(listaProcessosInformados, listaProcessosInformados.get(0), execucaoAtual)) {
                     break;
                 }
                 
-                temp = new Processo(listaProcessosInformados.get(0));
+                //temp = new Processo(listaProcessosInformados.get(0));
                 
                 listaProcessosInformados.get(0).setDuracao((listaProcessosInformados.get(0).getDuracao() - 1));
                 temp.setDuracao(contDuracao);

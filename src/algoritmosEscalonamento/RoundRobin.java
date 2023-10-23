@@ -43,7 +43,8 @@ public class RoundRobin extends AlgortimosEscalonamento {
                 //atualizar os valores do elemento antes de acrescentar na fila final, e decrementar o seu tempo de duração
                 primeiroElemento.setDuracao(quantum);
                 filaEspera.get(0).setDuracao((filaEspera.get(0).getDuracao() - quantum));
-                execucaoAtual += quantum;
+                primeiroElemento.setInicioDuracao(execucaoAtual);
+                execucaoAtual += quantum; 
                 primeiroElemento.setFimDuracao(execucaoAtual);
                 filaProcessosFinal.add(primeiroElemento); //adiciona na fila final de processos
                 
@@ -62,6 +63,7 @@ public class RoundRobin extends AlgortimosEscalonamento {
             else{
                 
                 //atualizar os valores do elemento antes de acrescentar na fila final
+                primeiroElemento.setInicioDuracao(execucaoAtual);
                 execucaoAtual += filaEspera.get(0).getDuracao();
                 primeiroElemento.setFimDuracao(execucaoAtual);
                 filaProcessosFinal.add(primeiroElemento);
