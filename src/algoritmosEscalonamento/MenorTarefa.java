@@ -98,9 +98,4 @@ public class MenorTarefa extends AlgortimosEscalonamento{
         return tempoExecucaoMedio/listaProcessosInformados.size();
     }*/
     
-    //as trocas de contexto no algoritmo SJF é o número de processos menos 1
-    @Override
-    public int calcularTrocasContexto(List<Processo> listaProcessosInformados) {
-        return listaProcessosInformados.size()-1;
-    }
 }

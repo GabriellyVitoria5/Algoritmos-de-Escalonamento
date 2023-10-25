@@ -86,7 +86,7 @@ public class RoundRobin extends AlgortimosEscalonamento {
     }
     
     //tempo de espera médio = (tempo em que o processo terminou - ingresso) - duração
-    @Override
+    /*@Override
     public float calcularTempoEsperaMedio(List<Processo> listaProcessosInformados, List<Processo> filaOrdenadaFinal) {
         int fimDuracaoPorProcesso[] = new int[listaProcessosInformados.size()];
         float tempoEsperaMedio = 0;
@@ -132,12 +132,6 @@ public class RoundRobin extends AlgortimosEscalonamento {
         }
         
         return tempoExecucaoMedio/listaProcessosInformados.size();
-    }
+    }*/
     
-    //do modo como foi implementado, as trocas de contexto serão as mesmas do algoritmo SJF e prioridade preemptiva
-    @Override
-    public int calcularTrocasContexto(List<Processo> lista) {
-        return lista.size()-1;
-    }
-
 }

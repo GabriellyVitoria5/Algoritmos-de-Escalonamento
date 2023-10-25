@@ -46,6 +46,8 @@ public class PrioridadeCooperativo extends AlgortimosEscalonamento{
                     }
                 }
 
+                listaProcessosInformados.get(i).setInicioDuracao(execucaoAtual);
+                
                 //atualiza o tempo de execução atual do "processador"
                 execucaoAtual+= listaProcessosInformados.get(i).getDuracao();
                 
@@ -98,10 +100,4 @@ public class PrioridadeCooperativo extends AlgortimosEscalonamento{
         }
         return tempoExecucaoMedio/lista.size();
     }*/
-
-    //semelhante ao SJF, na prioridade cooperativa a troca de contexto é o número de processos menos 1
-    @Override
-    public int calcularTrocasContexto(List<Processo> lista) {
-        return lista.size()-1;
-    }
 }
