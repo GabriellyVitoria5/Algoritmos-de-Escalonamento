@@ -2,7 +2,7 @@
 
 Este projeto tem como objetivo a implementação de quatro algoritmos de escalonamento de processos, sendo dois preemptivos e dois não preemptivos. O foco principal é exercitar a lógica desses algoritmos, garantindo sua correta execução e análise de desempenho. Além disso, o projeto pode ser acompanhado de uma interface gráfica para melhorar a interação com o usuário.
 
-Acesse a branch master para visualizar os arquivos.
+**Acesse a branch master para visualizar os arquivos.**
 
 ## Algoritmos Escolhidos
 Os algoritmos de escalonamento escolhidos para este projeto foram:
